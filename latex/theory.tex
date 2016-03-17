@@ -1,0 +1,80 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{datetime}
+\usepackage{fullpage}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{enumerate}
+\usepackage{listings}
+
+\linespread{1.5}
+
+\begin{document}
+\title{Answers to the theory questions - Homework 1 \\
+  \large Computer Vision (2016 Spring)}
+\author{2009-11744 Gyumin Sim}
+\maketitle
+
+\section*{Question 1}
+
+\subsection*{(a)}
+
+$f$ is unit impulse function or Dirac delta function $\delta(x)$.
+\begin{align*}
+\delta(x) = \begin{cases} +\infty, & x = 0 \\ 0, & x \ne 0 \end{cases} where \int_{-\infty}^\infty \delta(x) \, dx = 1.
+\end{align*}
+
+In cases of discrete functions, $f$ is Kronecker delta function $\delta[n]$.
+\begin{align*}
+\delta[n] = \begin{cases} 0, & n \ne 0 \\ 1, & n = 0.\end{cases}
+\end{align*}
+
+\subsection*{(b)}
+
+At a point $(a, b)$, the direction of the normal of the dominant edge is
+\begin{align*}
+\theta(a, b) = \arctan(I_y(a, b) / I_x(a, b)).
+\end{align*}
+
+Let $(u, v)$-axis be the rotated axis of $(x, y)$-axis by the angle of $\theta$.
+That is
+\begin{align*}
+\begin{pmatrix}
+u \\
+v
+\end{pmatrix} =
+\begin{pmatrix}
+  \cos \theta & \sin \theta \\
+- \sin \theta & \cos \theta
+\end{pmatrix}
+\begin{pmatrix}
+x \\
+y
+\end{pmatrix}.
+\end{align*}
+
+To smooth $I(a, b)$ by $\sigma_1$ in the direction of the dominant edge and by $\sigma_2$ in the perpendicular direction,
+we can apply a Gaussian kernel to $I(a, b)$ along the $u$-axis by $\sigma_2$ and along the $v$-axis by $\sigma_1$.
+So,
+\begin{align*}
+I'(a, b) &= I(x, y) * g(u, v) \\
+&= \iint I(a - x, b - y) \frac{1}{2\pi \sigma_1 \sigma_2} \exp \left( -\frac{1}{2}\left(\frac{u^2}{\sigma_2^2} + \frac{v^2}{\sigma_1^2}\right) \right) dx dy \\
+&= \iint I(a - x, b - y) \frac{1}{2\pi \sigma_1 \sigma_2} \exp \left( -\frac{1}{2}\left(\frac{(x \cos \theta + y \sin \theta)^2}{\sigma_2^2} + \frac{(-x \sin \theta + y \cos \theta)^2}{\sigma_1^2}\right) \right) dx dy .
+\end{align*}
+
+\section*{Question 2}
+
+\subsection*{(a)}
+
+Circles in 2-D space can be identified by three elements $(x, y, r)$ where $(x, y)$ is the coordinate of the center and $r$ is the radius.
+A point $(a, b)$ can be transformed to Hough space $(x, y, r)$ as,
+\begin{align*}
+\sqrt{ (x - a)^2 + (y - b)^2 } = r
+\end{align*}
+which represents a set of all circles that pass the point $(a, b)$.
+It will be a conical surface.
+
+\end{document}
