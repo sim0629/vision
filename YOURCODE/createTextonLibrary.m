@@ -1,7 +1,7 @@
 % this scripts assumes that you are in the YOURCODE directory.
 
 giantFeatureMatrix = [];
-numberOfClusters = 18;
+numberOfClusters = 10;
 
 dirname = '../random';
 d = dir(dirname);
