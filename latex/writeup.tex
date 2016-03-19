@@ -1,0 +1,75 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{datetime}
+\usepackage{fullpage}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{enumerate}
+\usepackage{listings}
+
+\linespread{1.5}
+
+\begin{document}
+\title{Writeup - Homework 1 \\
+  \large Computer Vision (2016 Spring)}
+\author{2009-11744 Gyumin Sim}
+\maketitle
+
+\section*{Q1}
+
+A 3D texture image can be represented by common local features like short edges or small spots whose orientation and size differs by the viewing and light direction.
+In order to classify 3D texture images, we should prepare those features, which is called texton library, by applying filters of various orientation and size to random texture images.
+
+\section*{Q2}
+
+The $x$-axis of the histogram is clusters that are obtained by creating the texton library.
+
+\section*{Q3}
+
+The kernel size of each Gabor filter is 39x39, and the number of clusters for the texton library is 8.
+
+Result:
+\begin{lstlisting}[basicstyle=\small]
+>> testClassifier
+../testImages\brodatz_grass1.tiff : Grass
+../testImages\brodatz_grass10.tiff : Grass
+../testImages\brodatz_grass11.tiff : Grass
+../testImages\brodatz_grass12.tiff : Grass
+../testImages\brodatz_grass13.tiff : Grass
+../testImages\brodatz_grass14.tiff : Grass
+../testImages\brodatz_grass15.tiff : Grass
+../testImages\brodatz_grass16.tiff : Grass
+../testImages\brodatz_grass2.tiff : Grass
+../testImages\brodatz_grass3.tiff : Grass
+../testImages\brodatz_grass9.tiff : Seeds
+../testImages\brodatz_straw10.tiff : Straw
+../testImages\brodatz_straw11.tiff : Straw
+../testImages\brodatz_straw12.tiff : Straw
+../testImages\brodatz_straw13.tiff : Straw
+../testImages\brodatz_straw14.tiff : Straw
+../testImages\brodatz_straw15.tiff : Straw
+../testImages\brodatz_straw16.tiff : Straw
+../testImages\brodatz_straw6.tiff : Straw
+../testImages\brodatz_straw7.tiff : Straw
+../testImages\brodatz_straw8.tiff : Straw
+../testImages\brodatz_straw9.tiff : Straw
+../testImages\canvas6.bmp : Canvas
+../testImages\canvas7.bmp : Canvas
+../testImages\canvas8.bmp : Canvas
+../testImages\canvas9.bmp : Canvas
+../testImages\chips6.bmp : Chips
+../testImages\chips7.bmp : Seeds
+../testImages\chips8.bmp : Seeds
+../testImages\chips9.bmp : Grass
+../testImages\seeds10.bmp : Chips
+../testImages\seeds11.bmp : Seeds
+../testImages\seeds12.bmp : Seeds
+../testImages\seeds13.bmp : Canvas
+../testImages\seeds9.bmp : Canvas
+Accuracy : 0.80
+\end{lstlisting}
+
+\end{document}
