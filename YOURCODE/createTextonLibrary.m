@@ -19,4 +19,4 @@ for i = 1 : length(d)
 end
 
 [~, TextonLibrary] = kmeans(giantFeatureMatrix, numberOfClusters, 'EmptyAction', 'drop');
-save('TextureLibrary.mat', 'TextonLibrary')
+save('../result/TextureLibrary.mat', 'TextonLibrary')

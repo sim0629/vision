@@ -4,7 +4,7 @@ function [class] = classify(img)
         d = sum((x - y) .^ 2 ./ (x + y + eps)) / 2;
     end
 
-    lib = load('TextureLibrary.mat');
+    lib = load('../result/TextureLibrary.mat');
     [N, ~] = size(lib.TextonLibrary);
     his = zeros(N, 1);
     vectors = extractResponseVectors(img);
@@ -21,7 +21,7 @@ function [class] = classify(img)
     his = his ./ sum(his);
 
     chisqs = zeros(5, 1);
-    hist = load('Histograms.mat');
+    hist = load('../result/Histograms.mat');
     chisqs(1) = chisq(his, hist.Canvas_histogram);
     chisqs(2) = chisq(his, hist.Chips_histogram);
     chisqs(3) = chisq(his, hist.Grass_histogram);

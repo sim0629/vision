@@ -1,7 +1,7 @@
 % this scripts assumes that you are in the YOURCODE directory.
 % and there is TextureLibrary.mat in the same directory.
 
-load('TextureLibrary.mat');
+load('../result/TextureLibrary.mat');
 [N, ~] = size(TextonLibrary);
 
 classes = cellstr(['Canvas'; 'Chips '; 'Grass '; 'Seeds '; 'Straw ']);
@@ -33,4 +33,4 @@ for i = 1 : length(classes)
     eval([varname '= his;']);
 end
 
-save('Histograms.mat', 'Canvas_histogram', 'Chips_histogram', 'Grass_histogram', 'Seeds_histogram', 'Straw_histogram');
+save('../result/Histograms.mat', 'Canvas_histogram', 'Chips_histogram', 'Grass_histogram', 'Seeds_histogram', 'Straw_histogram');
