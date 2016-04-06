@@ -1,0 +1,39 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{datetime}
+\usepackage{fullpage}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+
+\linespread{1.5}
+
+\begin{document}
+\title{Writeup - Homework 2 \\
+  \large Computer Vision (2016 Spring)}
+\author{2009-11744 Gyumin Sim}
+\maketitle
+
+\section*{Q1}
+
+Orientation-consistency cue is visual properties that two different points on a surface with the same orientation look similar.
+The surface normal of each point, which is essential for the shape reconstruction, can be inferred from orientation-consistency by taking a image with an additional reference object whose normal is known like a sphere or a cylinder and by matching each point of a target to the most similar point of the reference object.
+
+\section*{Q2}
+
+To reconstruct a shape with orientation-consistency cue, we should compare each point of the target object with each point of the reference object and identify the best matching point, but there may be a lot of similar appearance (but different orientation) of points on just one illumination condition.
+Many images on different illuminations or light sources make the points distinguishable, so they can improve the quality of the recovered shape.
+
+\section*{Q3}
+
+First, I precomputed the normal vectors for the reference object with the images masked out the background.
+Second, I created object vectors for both of the target object and the reference object by concatenating object vectors of each RGB channel.
+Finally, I got the normal vectors by gathering the precomputed normal vectors corresponding to the index returned by `kdtreeidx' function passed the target and reference object vectors.
+
+\end{document}
