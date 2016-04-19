@@ -1,0 +1,89 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{datetime}
+\usepackage{fullpage}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+
+\linespread{1.5}
+
+\begin{document}
+\title{Answers to the theory questions - Homework 3 \\
+  \large Computer Vision (2016 Spring)}
+\author{2009-11744 Gyumin Sim}
+\maketitle
+
+\section*{Question 1}
+
+\subsection*{(a)}
+
+As a point $\bm{X}$, a $4 \times 1$ vector in homogeneous coordinates, is on the plane $\pi$,
+an inverse projection exists for $\bm{M_1}$ except cases that $C_1$ and $\pi$ are perpendicular.
+That's because there could be 1-to-1 mapping between the image plane and $\pi$.
+
+Let the inverse projection for $\bm{M_1}$ be $\bm{M_1}'$, which is a $4 \times 3$ matrix.
+For all $\bm{X}$ on $\pi$,
+\begin{align*}
+\begin{cases}
+\bm{p} = \bm{M_1} \bm{X} \\
+\bm{q} = \bm{M_2} \bm{X}
+\end{cases}
+\implies
+\begin{cases}
+\bm{M_1}' \bm{p} = \bm{X} \\
+\bm{q} = \bm{M_2} \bm{X}
+\end{cases}
+\implies
+\bm{q} = \bm{M_2} \bm{M_1}' \bm{p}
+\implies
+\bm{q} = \bm{H} \bm{p}.
+\end{align*}
+So, there exists a $3 \times 3$ matrix $\bm{H}$.
+
+\subsection*{(b)}
+
+At least 4 pairs of corresponding points are needed.
+There are 9 unknown variables in the $3 \times 3$ matrix $\bm{H}$, so we need 9 equations to recover $\bm{H}$.
+We can get 8 equations from 4 pairs of points because we get two equations per pair, and
+one more equation that the Frobenius norm of $\bm{H}$ is 1 as it is defined only up to scale.
+
+\subsection*{(c)}
+
+Reshape $\bm{H}$ to $9 \times 1$ unit vector $\bm{h} = (h_{ij})$, and
+rewrite the equations from (b) as a matrix multiplication $\bm{A} \bm{h} = \bm{0}$,
+\begin{align*}
+\begin{bmatrix}
+u_1^1 & v_1^1 & 1 & 0 & 0 & 0 & -u_2^1 u_1^1 & -u_2^1 v_1^1 & -u_2^1 \\
+0 & 0 & 0 & u_1^1 & v_1^1 & 1 & -v_2^1 u_1^1 & -v_2^1 v_1^1 & -v_2^1 \\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+u_1^N & v_1^N & 1 & 0 & 0 & 0 & -u_2^N u_1^N & -u_2^N v_1^N & -u_2^N \\
+0 & 0 & 0 & u_1^N & v_1^N & 1 & -v_2^N u_1^N & -v_2^N v_1^N & -v_2^N
+\end{bmatrix}
+\begin{bmatrix}
+h_{00} \\
+h_{01} \\
+h_{02} \\
+h_{10} \\
+h_{11} \\
+h_{12} \\
+h_{20} \\
+h_{21} \\
+h_{22}
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 \\
+\vdots \\
+0
+\end{bmatrix}.
+\end{align*}
+Finally, solve the least squares problem $||\bm{A} \bm{h} - \bm{0}||^2$.
+
+\end{document}
