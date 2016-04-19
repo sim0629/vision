@@ -1,0 +1,32 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{datetime}
+\usepackage{fullpage}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+
+\linespread{1.5}
+
+\begin{document}
+\title{Writeup - Homework 3 \\
+  \large Computer Vision (2016 Spring)}
+\author{2009-11744 Gyumin Sim}
+\maketitle
+
+\section{Remarks}
+
+\begin{itemize}
+\item I manually selected 8 pairs of corresponding points from Washington DC images by using \textit{cpselect} function.
+\item I implemented inverse warping with bilinear interpolation.
+\item I merged two images (reference and warped) by averaging the pixels on the intersections between them and by taking one side (non blank) on the other pixels.
+\item I wrote a script \textit{run.m} to get result images.
+\end{itemize}
+
+\end{document}
