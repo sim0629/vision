@@ -1,0 +1,123 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{datetime}
+\usepackage{fullpage}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{multirow}
+
+\linespread{1.5}
+
+\begin{document}
+\title{Answers to the theory questions - Homework 4 \\
+  \large Computer Vision (2016 Spring)}
+\author{2009-11744 Gyumin Sim}
+\maketitle
+
+\section*{Question 1}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\multicolumn{3}{c}{$I(t)$} \\
+\hline
+1 & 1 & 1 \\
+\hline
+1 & 1 & 1 \\
+\hline
+1 & 1 & 1 \\
+\hline
+\end{tabular}
+\quad
+\begin{tabular}{|c|c|c|}
+\multicolumn{3}{c}{$I(t + \delta t)$} \\
+\hline
+1 & 1 & 1 \\
+\hline
+1 & 1 & 1 \\
+\hline
+1 & 1 & 1 \\
+\hline
+\end{tabular}
+\end{table}
+
+Either horizontal or vertical components could not be recovered
+when all pixels of the image has identical color (intensity) like the example above.
+Using area-based method to get optical flow,
+all derivatives ($I_x$, $I_y$, and $I_t$) of all pixel positions will be zero whatever the motion is.
+Therefore, the $2 \times 2$ matrix on the left-hand side of the equation below is not invertible,
+so $u$ and $v$ would be unknown.
+
+\begin{align*}
+\begin{bmatrix}
+\sum\nolimits I_x^2 & \sum\nolimits I_x I_y \\
+\sum\nolimits I_y I_x & \sum\nolimits I_y^2
+\end{bmatrix}
+\begin{bmatrix}
+u \\
+v
+\end{bmatrix}
+=
+\begin{bmatrix}
+- \sum\nolimits I_x I_t \\
+- \sum\nolimits I_y I_t
+\end{bmatrix}
+\end{align*}
+
+\section*{Question 2}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\multicolumn{3}{c}{$I(t)$} \\
+\hline
+0 & 0 & 0 \\
+\hline
+0 & 1 & 0 \\
+\hline
+0 & 0 & 0 \\
+\hline
+\end{tabular}
+\quad
+\begin{tabular}{|c|c|c|}
+\multicolumn{3}{c}{$I(t + \delta t)$} \\
+\hline
+0 & 0 & 0 \\
+\hline
+0 & 0 & 0 \\
+\hline
+0 & 0 & 1 \\
+\hline
+\end{tabular}
+\end{table}
+
+Both horizontal and vertical components of motion could be always recovered
+when only one pixel has different color (intensity) like the example above.
+The $u$ and $v$ could be known by using area-based method.
+
+\section*{Question 3}
+
+The optical flow equation still hold
+if the motion of the camera doesn't violate the assumption of small motion.
+To figure out moving objects,
+get the dominant motion by computing the optical flow of the entire scene,
+and then subtract the dominant motion from the scene
+to filter out the optical flow caused by the camera motion.
+
+\section*{Question 4}
+
+Let the coordinate of a point in the world be $(x_0, y_0, z_0)$,
+the velocity $V$ be $(u, v, w)$, and the focal length be $1$.
+Then, the projection point on the image plane would be
+$(x', y') = ((x_0 + ut) / (z_0 + wt), (y_0 + vt) / (z_0 + wt))$ on a time $t$.
+When $t$ goes to the negative infinity to get the origin of the optical flow vector,
+all points converge on the same point $(u/w, v/w)$, which is called the focus of expansion.
+
+\end{document}
