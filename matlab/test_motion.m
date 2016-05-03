@@ -10,9 +10,6 @@ open(mov);
 for frame = 1:numimages
     %Reads next image in sequence
     
-    prev_fname = sprintf('%s/%d.jpg',path_to_images,frame-1);
-    img1 = double(imread(prev_fname));
-    
     fname = sprintf('%s/%d.jpg',path_to_images,frame);
     img2 = double(imread(fname));
     
@@ -21,18 +18,20 @@ for frame = 1:numimages
     [motion_img] = SubtractDominantMotion(img1, img2);
     
     % Superimposes the binary image on img2, and adds it to the movie
-    currframe=repmat(img2/255.0,[1 1 3]);
-    motion_img=double(motion_img);
-    temp=img2/255.0; temp(motion_img~=0.0)=1.0;
+    temp=uint8(img2);
+    currframe=repmat(temp, [1, 1, 3]);
+    temp(motion_img==1)=255;
     currframe(:,:,1)=temp;
+    temp(motion_img==1)=0;
+    currframe(:,:,2)=temp;
     currframe(:,:,3)=temp;
     
     hold off;
-    imshow(temp);
+    imshow(currframe);
     hold on;
     drawnow;
     
-    writeVideo(mov,temp);
+    writeVideo(mov,currframe);
     
     img1 = img2;
 end
