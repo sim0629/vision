@@ -12,7 +12,7 @@ p = FindDominantMotion(image1, image2);
 image1_moved = Warp(image1, p);
 image1_moved(image1_moved == 0) = NaN;
 image_diff = image2 - image1_moved;
-moving_image = hysthresh(image_diff, 0.35, 0.02);
+moving_image = hysthresh(image_diff, 0.5, 0.25);
 se = strel('square', 5);
 moving_image = imdilate(moving_image, se);
 

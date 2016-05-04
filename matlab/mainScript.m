@@ -2,7 +2,7 @@ dir_car = '../data/frames';
 
 %input parameter
 sigma = 2;
-num_frames = 100;
+num_frames = 713;
 
 %complete your functions
 
