@@ -1,10 +1,8 @@
 dir_car = '../data/frames';
 
 %input parameter
-sigma = 2;
+sigma = 10;
 num_frames = 713;
-
-%complete your functions
 
 test_motion(dir_car,num_frames);
 trackTemplate(dir_car,sigma);
