@@ -1,0 +1,50 @@
+==========================
+Experiments for homework 4
+==========================
+Motion Tracking
+Computer Vision
+@SNU 2016 Spring
+2009-11744 Gyumin Sim
+
+-----------
+Description
+-----------
+Motion detector and template tracker have similar algorithm.
+They use Lucas-Kanade algorithm to find optical flow from two consecutive images.
+
+For motion detector,
+
+1. Consider whole part of image2 as template.
+2. Find affine warping from image1 to image2.
+3. Warp image1 and subtract it from image2 to get moving image.
+4. Apply threshold and imdilate to denoise the result.
+
+To get "motion.avi":
+- Only common part of both images were considered to calculate optical flow.
+- Pixel values of the images were normalized in [0, 1].
+- Size of the images were normalized in [0, 1] x [0, 1].
+- Maximum number of iteration for LK was 30.
+- EPS for the norm of delta parameter vector was 1e-3.
+- Hysteresis threshold was [high, low] = [0.5, 0.25].
+- The moving image was dilated with strel('square', 5).
+- I modified the "test_motion.m" in order to plot red-colored pixels to the motion movie.
+- I ran the script multiple times to find good threshold parameters.
+
+For template tracker,
+
+1. Get the region of interest (ROI) of the current image from user.
+2. Read the next image and find a transformation from the next image to the current image only for the ROI.
+3. Set the next transformed image as the current image and goto 1 (repeat).
+
+To get the files in "./output/":
+- Template was considered to be lost when LK algorithm doesn't converge.
+- Maximum number of iteration for LK was 10.
+- EPS for the norm of delta translation vector was 0.001.
+- Gaussian blurring (and subsampling) was applied whenever each image was read according to the sigma given (it was 10).
+
+----------
+Discussion
+----------
+The tracking was better when the smoothing sigma was big (e.g. 10).
+There are some frames that the motion is not small enough, but with smoothing,
+the image resolution can be reduced so that it can be tolerant to relatively large motion.
