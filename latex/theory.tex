@@ -1,0 +1,55 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{datetime}
+\usepackage{fullpage}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{multirow}
+
+\linespread{1.5}
+
+\begin{document}
+\title{Answers to the theory questions - Homework 5 \\
+  \large Computer Vision (2016 Spring)}
+\author{2009-11744 Gyumin Sim}
+\maketitle
+
+\section*{Question 1}
+
+AlexNet consists of 8 layers.
+The last 8th layer's output has 1,000 neurons.
+So, I assume the vector referred to the question is the output of the 7th layer, which has 4,096 neurons.
+Each layer's output is calculated as follows:
+\begin{enumerate}
+\item From $224 \times 224 \times 3$ input image, pad $3$ pixels to width and height to get $227 \times 227 \times 3$ vector.
+Convolve it with $96$ kernels of size $11 \times 11 \times 3$ with a stride of $4$ pixels to get $55 (= (227-11)/4+1) \times 55 \times 96$ output.
+\item Split the input into two of size $55 \times 55 \times 48$ and process each on two different GPUs.
+On each GPU, pool (max pooling) each input with a size of $3 \times 3$ with a stride of $2$ pixels to get $27 (= (55-3)/2+1) \times 27 \times 48$ vector.
+Convolve it with $128$ kernels of size $5 \times 5 \times 48$ to get $27 \times 27 \times 128$ output for each GPU.
+\item For each GPU, pool each input as the same way to the previous layer to get $13 (= (27-3)/2+1) \times 13 \times 128$ vector.
+Merge the vectors for two GPUs to get $13 \times 13 \times 256$ vector.
+Convolve it with $384$ kernels of size $3 \times 3 \times 256$ to get $13 \times 13 \times 384$ output.
+\item Split the input into two of size $13 \times 13 \times 192$ and process each on two different GPUs.
+On each GPU, convolve each input with $192$ kernels of size $3 \times 3 \times 192$ to get $13 \times 13 \times 192$ output.
+\item On each GPU, convolve each input with $128$ kernels of size $3 \times 3 \times 192$ to get $13 \times 13 \times 128$ output.
+\item Merge two inputs for each GPU to get $13 \times 13 \times 256$ vector.
+Pool it as the same way to the previous layer to get $6 (= (13-3)/2+1) \times 6 \times 256$ vector.
+With a fully-connected layer, calculate 4,096 dimensional vector.
+\item With another fully-connected layer, calculate another 4,096 dimensional vector.
+\end{enumerate}
+
+\section*{Question 2}
+
+Pooling outputs a value for a given patch using corresponding methods.
+Max pooling selects the maximum value in the patch,
+min pooling selects the minimum value in the patch,
+and mean pooling calculates the average value of all values in the patch.
+
+\end{document}
