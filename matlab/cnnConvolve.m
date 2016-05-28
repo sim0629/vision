@@ -19,8 +19,6 @@ numImages = size(images, 4);
 imageDim = size(images, 1);
 imageChannels = size(images, 3);
 
-convolvedFeatures = zeros(numFeatures, numImages, imageDim - patchDim + 1, imageDim - patchDim + 1);
-
 % Instructions:
 %   Convolve every feature with every large image here to produce the 
 %   numFeatures x numImages x (imageDim - patchDim + 1) x (imageDim - patchDim + 1) 
@@ -53,17 +51,17 @@ for imageNum = 1:numImages
 
     % convolution of image with feature matrix for each channel
     convolvedImage = zeros(imageDim - patchDim + 1, imageDim - patchDim + 1);
-    for channel = 1:3
+    for channel = 1:imageChannels
 
       % Obtain the feature (patchDim x patchDim) needed during the convolution
       % ---- YOUR CODE HERE ----
       wt_feature = wt(featureNum, :);
-      wt_reshaped = reshape(wt_feature, patchDim, patchDim, 3);
+      wt_reshaped = reshape(wt_feature, patchDim, patchDim, imageChannels);
       feature = wt_reshaped(:, :, channel);
       % ------------------------
 
       % Flip the feature matrix because of the definition of convolution, as explained later
-      feature = flipud(fliplr(squeeze(feature)));
+      feature = rot90(squeeze(feature),2);
       
       % Obtain the image
       im = squeeze(images(:, :, channel, imageNum));
