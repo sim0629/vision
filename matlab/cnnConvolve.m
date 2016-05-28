@@ -57,11 +57,9 @@ for imageNum = 1:numImages
 
       % Obtain the feature (patchDim x patchDim) needed during the convolution
       % ---- YOUR CODE HERE ----
-      feature = zeros(8,8); % You should replace this
-      
-      
-      
-      
+      wt_feature = wt(featureNum, :);
+      wt_reshaped = reshape(wt_feature, patchDim, patchDim, 3);
+      feature = wt_reshaped(:, :, channel);
       % ------------------------
 
       % Flip the feature matrix because of the definition of convolution, as explained later
@@ -73,10 +71,7 @@ for imageNum = 1:numImages
       % Convolve "feature" with "im", adding the result to convolvedImage
       % be sure to do a 'valid' convolution
       % ---- YOUR CODE HERE ----
-
-      
-      
-      
+      convolvedImage = convolvedImage + conv2(im, feature, 'valid');
       % ------------------------
 
     end
@@ -84,10 +79,9 @@ for imageNum = 1:numImages
     % Subtract the bias unit (correcting for the mean subtraction as well)
     % Then, apply the sigmoid function to get the hidden activation
     % ---- YOUR CODE HERE ----
-
-    
-    
-    
+    bt_feature = bt(featureNum);
+    convolvedImage = convolvedImage + bt_feature;
+    convolvedImage = 1 ./ (1 + exp(-convolvedImage));
     % ------------------------
     
     % The convolved feature is the sum of the convolved values for all channels
