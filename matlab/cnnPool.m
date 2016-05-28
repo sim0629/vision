@@ -29,6 +29,17 @@ pooledFeatures = zeros(numFeatures, numImages, floor(convolvedDim / poolDim), fl
 %   (see http://ufldl/wiki/index.php/Pooling )
 %   
 %   Use mean pooling here.
+for imageNum = 1:numImages
+  for featureNum = 1:numFeatures
+    for r = 1:poolDim:convolvedDim
+      for c = 1:poolDim:convolvedDim
+        region = convolvedFeatures(featureNum, imageNum, r:(r+poolDim-1), c:(c+poolDim-1));
+        average = mean(region(:));
+        pooledFeatures(featureNum, imageNum, (r-1)/poolDim+1, (c-1)/poolDim+1) = average;
+      end
+    end
+  end
+end
 % -------------------- YOUR CODE HERE --------------------
 
 end
