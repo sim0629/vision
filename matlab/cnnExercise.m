@@ -144,5 +144,6 @@ softmaxY = testLabels;
 acc = (pred(:) == softmaxY(:));
 acc = sum(acc) / size(acc, 1);
 fprintf('Accuracy: %2.3f%%\n', acc * 100);
+confusionMatrix = getConfusionMatrix(numClasses, softmaxY(:), pred(:))
 
 % You should expect to get an accuracy of around 80% on the test images.
