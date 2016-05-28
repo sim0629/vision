@@ -23,7 +23,7 @@ hiddenSize = 400;           % number of hidden units
 
 epsilon = 0.1;	       % epsilon for ZCA whitening
 
-poolDim = 19;          % dimension of pooling region
+poolDim = 12;          % dimension of pooling region
 
 %%======================================================================
 %% STEP 1: Train a sparse autoencoder (with a linear decoder) to learn 
@@ -66,11 +66,11 @@ load stlTrainSubset.mat % loads numTrainImages, trainImages, trainLabels
 load stlTestSubset.mat  % loads numTestImages,  testImages,  testLabels
 
 pooledFeaturesTrain = zeros(hiddenSize, numTrainImages, ...
-    floor((imageDim - patchDim + 1) / poolDim), ...
-    floor((imageDim - patchDim + 1) / poolDim) );
+    ceil((imageDim - patchDim + 1) / poolDim), ...
+    ceil((imageDim - patchDim + 1) / poolDim) );
 pooledFeaturesTest = zeros(hiddenSize, numTestImages, ...
-    floor((imageDim - patchDim + 1) / poolDim), ...
-    floor((imageDim - patchDim + 1) / poolDim) );
+    ceil((imageDim - patchDim + 1) / poolDim), ...
+    ceil((imageDim - patchDim + 1) / poolDim) );
 
 tic();
 
