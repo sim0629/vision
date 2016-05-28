@@ -60,7 +60,7 @@ b = optTheta(2*hiddenSize*visibleSize+1:2*hiddenSize*visibleSize+hiddenSize);
 %  convolution and pooling 50 features at a time to avoid running out of
 %  memory. Reduce this number if necessary
 
-stepSize = 100;
+stepSize = 50;
 assert(mod(hiddenSize, stepSize) == 0, 'stepSize should divide hiddenSize');
 
 load stlTrainSubset.mat % loads numTrainImages, trainImages, trainLabels
