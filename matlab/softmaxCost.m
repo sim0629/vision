@@ -14,29 +14,25 @@ theta = reshape(theta, numClasses, inputSize);
 numCases = size(data, 2);
 
 groundTruth = full(sparse(labels, 1:numCases, 1));
-cost = 0;
-
-thetagrad = zeros(numClasses, inputSize);
 
 %% ---------- YOUR CODE HERE --------------------------------------
 %  Instructions: Compute the cost and gradient for softmax regression.
 %                You need to compute thetagrad and cost.
 %                The groundTruth matrix might come in handy.
 
-
-% size(groundTruth) % 10 100
-% size(theta)       % 10 8
-% size(labels)      % 100 1
-% size(data)        % 8 10
-% size (thetagrad)  % 10 8  
-% h                 % 10 10
-
-
 % note that if we subtract off after taking the exponent, as in the
 % text, we get NaN
 
+tx = theta * data;
+tx = bsxfun(@minus, tx, max(tx)); % prevent overflow
+etx = exp(tx);
+pred = bsxfun(@rdivide, etx, sum(etx));
+
+thetagrad = (-1/numCases) * (groundTruth - pred) * data' + lambda * theta;
+cost = (-1/numCases) * sum(sum(groundTruth .* log(pred))) + lambda / 2 * sum(sum(theta.^2));
+
 % ------------------------------------------------------------------
 % Unroll the gradient matrices into a vector for minFunc
-grad = [thetagrad(:)];
+grad = thetagrad(:);
 end
 
