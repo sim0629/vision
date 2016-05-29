@@ -48,6 +48,90 @@ load './STL10Features.mat';
 W = reshape(optTheta(1:visibleSize * hiddenSize), hiddenSize, visibleSize);
 b = optTheta(2*hiddenSize*visibleSize+1:2*hiddenSize*visibleSize+hiddenSize);
 
+displayColorNetwork( (W*ZCAWhite)');
+
+%%======================================================================
+%% STEP 2: Implement and test convolution and pooling
+%  In this step, you will implement convolution and pooling, and test them
+%  on a small part of the data set to ensure that you have implemented
+%  these two functions correctly. In the next step, you will actually
+%  convolve and pool the features with the STL10 images.
+
+%% STEP 2a: Implement convolution
+%  Implement convolution in the function cnnConvolve in cnnConvolve.m
+
+% Note that we have to preprocess the images in the exact same way 
+% we preprocessed the patches before we can obtain the feature activations.
+
+load stlTrainSubset.mat % loads numTrainImages, trainImages, trainLabels
+
+%% Use only the first 8 images for testing
+convImages = trainImages(:, :, :, 1:8); 
+
+% NOTE: Implement cnnConvolve in cnnConvolve.m first!
+convolvedFeatures = cnnConvolve(patchDim, hiddenSize, convImages, W, b, ZCAWhite, meanPatch);
+
+%% STEP 2b: Checking your convolution
+%  To ensure that you have convolved the features correctly, we have
+%  provided some code to compare the results of your convolution with
+%  activations from the sparse autoencoder
+
+% For 1000 random points
+for i = 1:1000    
+    featureNum = randi([1, hiddenSize]);
+    imageNum = randi([1, 8]);
+    imageRow = randi([1, imageDim - patchDim + 1]);
+    imageCol = randi([1, imageDim - patchDim + 1]);    
+   
+    patch = convImages(imageRow:imageRow + patchDim - 1, imageCol:imageCol + patchDim - 1, :, imageNum);
+    patch = patch(:);            
+    patch = patch - meanPatch;
+    patch = ZCAWhite * patch;
+    
+    features = feedForwardAutoencoder(optTheta, hiddenSize, visibleSize, patch); 
+
+    if abs(features(featureNum, 1) - convolvedFeatures(featureNum, imageNum, imageRow, imageCol)) > 1e-9
+        fprintf('Convolved feature does not match activation from autoencoder\n');
+        fprintf('Feature Number    : %d\n', featureNum);
+        fprintf('Image Number      : %d\n', imageNum);
+        fprintf('Image Row         : %d\n', imageRow);
+        fprintf('Image Column      : %d\n', imageCol);
+        fprintf('Convolved feature : %0.5f\n', convolvedFeatures(featureNum, imageNum, imageRow, imageCol));
+        fprintf('Sparse AE feature : %0.5f\n', features(featureNum, 1));       
+        error('Convolved feature does not match activation from autoencoder');
+    end 
+end
+
+disp('Congratulations! Your convolution code passed the test.');
+
+%% STEP 2c: Implement pooling
+%  Implement pooling in the function cnnPool in cnnPool.m
+
+% NOTE: Implement cnnPool in cnnPool.m first!
+pooledFeatures = cnnPool(poolDim, convolvedFeatures);
+
+%% STEP 2d: Checking your pooling
+%  To ensure that you have implemented pooling, we will use your pooling
+%  function to pool over a test matrix and check the results.
+
+testMatrix = reshape(1:64, 8, 8);
+expectedMatrix = [mean(mean(testMatrix(1:4, 1:4))) mean(mean(testMatrix(1:4, 5:8))); ...
+                  mean(mean(testMatrix(5:8, 1:4))) mean(mean(testMatrix(5:8, 5:8))); ];
+            
+testMatrix = reshape(testMatrix, 1, 1, 8, 8);
+        
+pooledFeatures = squeeze(cnnPool(4, testMatrix));
+
+if ~isequal(pooledFeatures, expectedMatrix)
+    disp('Pooling incorrect');
+    disp('Expected');
+    disp(expectedMatrix);
+    disp('Got');
+    disp(pooledFeatures);
+else
+    disp('Congratulations! Your pooling code passed the test.');
+end
+
 %%======================================================================
 %% STEP 3: Convolve and pool with the dataset
 %  In this step, you will convolve each of the features you learned with
